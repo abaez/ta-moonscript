@@ -58,7 +58,6 @@ local func = token(l.FUNCTION, word_match{
   'rawlen'
 })
 
-
 -- Libraries.
 local library = token('library', word_match({
   -- Coroutine.
@@ -120,7 +119,7 @@ local err = token(l.ERROR, word_match { "function", "end" })
 
 -- Operators.
 local symbol = token("symbol", S("(){}[]"))
-local operator = token(l.OPERATOR, '~=' + S('+-*!\\/%^#=<>;:,.'))
+local operator = token(l.OPERATOR, S('+-*!\\/%^#=<>;:,.'))
 
 -- self ref
 local self_var = token("self_ref", "@" * l.word + "self")
@@ -147,16 +146,16 @@ M._rules = {
   { 'any_char', l.any_char },
 }
 
-local style_special = { fore = l.colors.light_blue }
-local style_fndef = { fore = l.colors.green }
+local style_special = 'fore:%(color.light_blue)'
+local style_fndef = 'fore:%(color.green)'
 
 M._tokenstyles = {
   { 'self_ref', style_special },
-  { 'proper_ident', l.style_class },
+--  { 'proper_ident', l.style_class },
   { 'fndef', style_fndef },
   { 'symbol', style_fndef },
   { 'special', style_special },
-  { 'tbl_key', { fore = l.colors.red } },
+  { 'tbl_key', 'fore:%(color.red)' },
 }
 
 return M
