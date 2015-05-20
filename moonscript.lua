@@ -1,5 +1,10 @@
--- Copyright 2006-2011 Mitchell mitchell<att>caladbolg.net. See LICENSE.
--- Moonscript lexer by leaf corcoran <http://leafo.net>
+--- Moonscript LPeg lexer.
+-- See @{README.md} for details on usage. Used Mitchell's lua and original
+-- Leaf's moonscript lexer for reference.
+-- @author [Alejandro Baez](https://twitter.com/a_baez)
+-- @copyright 2015
+-- @license MIT (see LICENSE)
+-- @module moonscript
 
 local l = require("lexer")
 local token, word_match = l.token, l.word_match
