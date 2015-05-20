@@ -1,7 +1,7 @@
 -- Copyright 2006-2011 Mitchell mitchell<att>caladbolg.net. See LICENSE.
 -- Moonscript lexer by leaf corcoran <http://leafo.net>
 
-local l = lexer
+local l = require("lexer")
 local token, word_match = l.token, l.word_match
 local P, S, R = lpeg.P, lpeg.S, lpeg.R
 
@@ -10,14 +10,11 @@ local M = { _NAME = 'moonscript' }
 -- Whitespace.
 local ws = token(l.WHITESPACE, l.space^1)
 
-local longstring = #('[[' + ('[' * P('=')^0 * '['))
-local longstring = longstring * P(function(input, index)
-  local level = input:match('^%[(=*)%[', index)
-  if level then
-    local _, stop = input:find(']'..level..']', index, true)
-    return stop and stop + 1 or #input + 1
-  end
-end)
+local longstring = lpeg.Cmt('[' * lpeg.C(P('=')^0) * '[',
+                            function(input, index, eq)
+                              local _, e = input:find(']'..eq..']', index, true)
+                              return (e or #input) + 1
+                            end)
 
 -- Comments.
 local line_comment = '--' * l.nonnewline^0
@@ -27,7 +24,8 @@ local comment = token(l.COMMENT, block_comment + line_comment)
 -- Strings.
 local sq_str = l.delimited_range("'", '\\', true)
 local dq_str = l.delimited_range('"', '\\', true)
-local string = token(l.STRING, sq_str + dq_str + longstring)
+local string = token(l.STRING, sq_str + dq_str) +
+  token('longstring', longstring)
 
 -- Numbers.
 local number = token(l.NUMBER, l.float + l.integer)
