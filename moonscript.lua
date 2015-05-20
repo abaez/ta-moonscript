@@ -36,7 +36,7 @@ local number = token(l.NUMBER, l.float + l.integer)
 local keyword = token(l.KEYWORD, word_match {
   -- lua
   'and', 'break', 'do', 'else', 'elseif', 'false', 'for',
-  'if', 'in', 'local', 'nil', 'not', 'or', 'return', 'self', 'then',
+  'if', 'in', 'local', 'nil', 'not', 'or', 'return', 'then',
   'true', 'while',
   -- moonscript
   'continue', 'class', 'export', 'extends', 'from', 'import', 'super',
@@ -133,8 +133,8 @@ local tbl_key = token("tbl_key", l.word * ":" + ":" * l.word )
 M._rules = {
   { 'whitespace', ws },
   { 'keyword', keyword },
---  { 'error', err },
---  { 'self', self_var },
+  { 'error', err },
+  { 'self', self_var },
   { 'function', func},
   { 'constant', constant},
   { 'library', library },
@@ -142,21 +142,20 @@ M._rules = {
   { 'string', string },
   { 'comment', comment },
   { 'number', number },
---  { 'fndef', fndef },
---  { 'symbol', symbol },
+  { 'fndef', fndef },
+  { 'symbol', symbol },
   { 'operator', operator },
 }
 
-local style_special = 'fore:%(color.light_blue)'
-local style_fndef = 'fore:%(color.green)'
-
 M._tokenstyles = {
---  { 'self_ref', style_special },
---  { 'proper_ident', l.style_class },
---  { 'fndef', style_fndef },
---  { 'symbol', style_fndef },
---  { 'special', style_special },
---  { 'tbl_key', 'fore:%(color.red)' },
+  library       = l.STYLE_TYPE,
+  self_ref      = l.STYLE_LABEL,
+  proper_ident  = l.STYLE_CLASS,
+  fndef         = l.STYLE_PREPROCESSOR,
+  symbol        = l.STYLE_EMBEDDED,
+  tbl_key       = l.STYLE_REGEX,
+  err           = l.ERROR,
+  proper_ident  = l.ERROR,
 }
 
 return M
