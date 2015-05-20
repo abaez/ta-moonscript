@@ -22,8 +22,10 @@ local block_comment = '--' * longstring
 local comment = token(l.COMMENT, block_comment + line_comment)
 
 -- Strings.
-local sq_str = l.delimited_range("'", '\\', true)
-local dq_str = l.delimited_range('"', '\\', true)
+local sq_str = l.delimited_range("'", false, true)
+local dq_str = l.delimited_range('"', false, true)
+
+
 local string = token(l.STRING, sq_str + dq_str) +
   token('longstring', longstring)
 
@@ -130,32 +132,31 @@ local tbl_key = token("tbl_key", l.word * ":" + ":" * l.word )
 
 M._rules = {
   { 'whitespace', ws },
-  { 'error', err },
-  { 'self', self_var },
   { 'keyword', keyword },
+--  { 'error', err },
+--  { 'self', self_var },
   { 'function', func},
   { 'constant', constant},
   { 'library', library },
   { 'identifier', proper_ident + tbl_key + identifier },
+  { 'string', string },
   { 'comment', comment },
   { 'number', number },
-  { 'string', string },
-  { 'fndef', fndef },
-  { 'symbol', symbol },
+--  { 'fndef', fndef },
+--  { 'symbol', symbol },
   { 'operator', operator },
-  { 'any_char', l.any_char },
 }
 
 local style_special = 'fore:%(color.light_blue)'
 local style_fndef = 'fore:%(color.green)'
 
 M._tokenstyles = {
-  { 'self_ref', style_special },
+--  { 'self_ref', style_special },
 --  { 'proper_ident', l.style_class },
-  { 'fndef', style_fndef },
-  { 'symbol', style_fndef },
-  { 'special', style_special },
-  { 'tbl_key', 'fore:%(color.red)' },
+--  { 'fndef', style_fndef },
+--  { 'symbol', style_fndef },
+--  { 'special', style_special },
+--  { 'tbl_key', 'fore:%(color.red)' },
 }
 
 return M
