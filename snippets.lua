@@ -10,8 +10,15 @@ return {
   fna   = ' %1((%2(param)) )%3(-)> %0',
 
   -- conditionals
-  ['if'] = 'if %1(expr),\n\t%0',
-  ['when'] = 'when %1(expr)%0',
+  ['if']      = 'if %1(expr)\n\t%0',
+  ['ift']     = 'if %1(expr) then %0',
+  ['ifc']     = 'continue if %1(expr) %0',
+  ['ife']     = 'if %1(expr)\n\t%2(body)\nelse\n\t%0',
+  ['else']    = 'else \n\t%0',
+  ['elseif']  = 'elseif %1(expr)\n\t%0',
+  ['unless']  = 'unless %1(expr)\n\t%0',
+  ['when']    = 'when %1(expr)\n\t%0',
+  ['switch']  = 'switch %1(item)\n\t%2(when)\n\t%3(else)',
 
   -- keys
   ['k']    = '%1(key): %2(value)%0',
@@ -28,6 +35,8 @@ return {
   ['ford']  = 'for %1(value) in %2(iterator) do %0',
   ['fori']  = 'for %1(value) in %2(iterator)\n\t%0',
   ['forp']  = 'for %1(k), %2(v) in %3(i)pairs %4(table)\n\t%0',
+  ['while'] = 'while %1(expr)\n\t%0',
+  ['wd']    = 'while %1(expr) do %0',
 
   -- random
   ['#']     = '#{%1(expr)}%0',
