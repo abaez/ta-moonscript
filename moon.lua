@@ -32,14 +32,14 @@ local number = token(l.NUMBER, l.float + l.integer)
 
 -- Keywords.
 local keyword = token(l.KEYWORD, word_match {
-	'return', 'break', 'for', 'while',
-	'if', 'else', 'elseif', 'then', 'export',
-	'import', 'from', 'with', 'in', 'and',
-	'or', 'not', 'class', 'extends', 'super', 'do',
-	'using', 'switch', 'when',
+  -- lua
+  'and', 'break', 'do', 'else', 'elseif', 'false', 'for',
+  'if', 'in', 'local', 'nil', 'not', 'or', 'return', 'self', 'then',
+  'true', 'while',
+  -- moonscript
+  'continue', 'class', 'export', 'extends', 'from', 'import', 'super',
+  'switch', 'unless', 'using', 'when', 'with'
 })
-
-local special = token("special", word_match { "true", "false", "nil" })
 
 -- Functions.
 local builtin = token(l.FUNCTION, word_match({
@@ -94,7 +94,6 @@ M._rules = {
   { 'whitespace', ws },
   { 'error', err },
   { 'self', self_var },
-  { 'special', special },
   { 'keyword', keyword },
   { 'builtin', builtin },
   { 'identifier', proper_ident + tbl_key + identifier },
