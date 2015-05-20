@@ -7,6 +7,9 @@
 textadept.file_types.extensions.moon = 'moonscript'
 textadept.editing.comment_string.moonscript = '--'
 
+textadept.run.compile_commands.moonscript = 'moonc %f'
+textadept.run.run_commands.moonscript = 'lua %d%e.lua'
+
 if type(snippets) == 'table' then
   snippets.moonscript = require("moonscript.snippets")
 end
