@@ -148,6 +148,7 @@ M._rules = {
 }
 
 M._tokenstyles = {
+  longstring    = l.STYLE_STRING,
   library       = l.STYLE_TYPE,
   self_ref      = l.STYLE_LABEL,
   proper_ident  = l.STYLE_CLASS,
@@ -157,5 +158,7 @@ M._tokenstyles = {
   err           = l.ERROR,
   proper_ident  = l.ERROR,
 }
+
+l.property['fold.by.indentation'] = '1'
 
 return M
