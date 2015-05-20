@@ -9,6 +9,13 @@ return {
   fn    = '%1(name) = %2((%3(param)) )%4(-)> \n\t%0',
   fna   = '%1((%2(param)) )%3(-)> %0',
 
+  -- oop
+  class = 'class %1(Name)\n\t%0',
+  ce    = 'class %1(Name) extends %2(NewName)\n\t%0',
+  ca    = 'class extends %1(Name)\n\t%0',
+  mn    = 'new: %1(param) => \n\t%0',
+  fnm   = '%1(name): %2((%3(param))) => \n\t%0',
+
   -- conditionals
   ['if']      = 'if %1(expr)\n\t%0',
   ['ift']     = 'if %1(expr) then %0',
@@ -40,4 +47,7 @@ return {
 
   -- random
   ['#']     = '#{%1(expr)}%0',
+  imp       = 'import %1(values) %2(from %3(module))',
+  r         = 'require "%1(module)"%0',
+  ['with']  = 'with %1(expr)\n\t%0',
 }
