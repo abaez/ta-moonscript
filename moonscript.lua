@@ -160,8 +160,7 @@ M._tokenstyles = {
   fndef         = l.STYLE_PREPROCESSOR,
   symbol        = l.STYLE_EMBEDDED,
   tbl_key       = l.STYLE_REGEX,
-  err           = l.ERROR,
-  proper_ident  = l.ERROR,
+  error         = l.STYLE_ERROR,
 }
 
 l.property['fold.by.indentation'] = '1'
