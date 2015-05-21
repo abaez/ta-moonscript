@@ -15,19 +15,22 @@ It does already have quite a number of options and will continue to progress
 more as I actually use the language. Literally learned Moonscript while making
 this module...
 
+**NOTE**: the module really shines when you use the snippets. Please check them
+out so you know what they are and make your life that much easier. :)
+
 #### Completed:
 *   lexer: All keywords, libraries, string type, class definition and full
 highlighting of the current language spec (0.3.1).
 *   module: compiles `*.moon` to `*.lua`, massive list of snippets, autolint
 working, and can run `*.moon` files directly.
 *   lint: full lint support from `moonc -l` option.
+*   build: build directly from `Tupfiles` using [tup](http://gittup.org/tup/).
 
 #### To Do:
 *   autocomplete: always leave this one out on my modules but will get around
 to it soon...
 *   busted: want unit testing integration with busted tightly constructed from
 snippets and build.
-*   build: build directly from `Tupfiles` using [tup](http://gittup.org/tup/).
 
 ### REQUIREMENT
 *   [moonscript](http://moonscript.org/) >= v0.3.1
@@ -52,3 +55,10 @@ Copy the `moonscript.lua` lexer file into your `~/.textadept/lexers` directory:
 cp ~/.textadept/modules/moonscript/moonscript.lua ~/.textadept/lexers/moonscript.lua
 ```
 
+### KEYBINDINGS
+
+    Keys        Action
+    cl+s        opens snippets directory for modifying.
+    cR          runs `moonc` on the current moonscript file.
+    cr          runs `moon` on the current moonscript file.
+    cB          builds the project with tup.

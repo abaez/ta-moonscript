@@ -11,11 +11,9 @@ textadept.file_types.extensions.moon = 'moonscript'
 textadept.editing.comment_string.moonscript = '--'
 
 textadept.run.compile_commands.moonscript = 'moonc %f'
-textadept.run.run_commands.moonscript = 'lua %d%e.lua'
+textadept.run.run_commands.moonscript = 'moon %f'
 
-if type(snippets) == 'table' then
-  snippets.moonscript = require("moonscript.snippets")
-end
+textadept.run.build_commands["Tupfile(%.lua)?"] = "tup"
 
 events.connect(events.LEXER_LOADED, function (lang)
   if lang ~= 'moonscript' then return end
@@ -24,10 +22,23 @@ events.connect(events.LEXER_LOADED, function (lang)
   buffer.use_tabs = false
 end)
 
+if type(snippets) == 'table' then
+  snippets.moonscript = require("moonscript.snippets")
+end
+
+keys.moonscript = {
+  [not OSX and not CURSES and 'cl' or 'ml'] = {
+    -- Open this module for editing: `Alt/⌘-L` `M`
+    s = { io.open_file,
+        (_USERHOME..'/modules/moonscript/snippets.lua') },
+  },
+
+}
+
 --- compiles automatically any moonscript file.
 -- disable by changing _AUTOLINT to false.
 events.connect(events.FILE_AFTER_SAVE, function()
-  if buffer:get_lexer() ~= 'moonscript' and not _AUTOLINT then return end
+  if buffer:get_lexer() ~= 'moonscript' or not _AUTOLINT then return end
   buffer:annotation_clear_all()
   local err =  io.popen("moonc -l " .. buffer.filename .. " 2>&1"):read('*a')
 
