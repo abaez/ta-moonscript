@@ -116,6 +116,18 @@ local library = token('library', word_match({
   -- Debug added in 5.2.
   'debug.getuservalue', 'debug.setuservalue', 'debug.upvalueid',
   'debug.upvaluejoin',
+
+  --- moonscript 0.3.1 standard library
+  -- printing functions
+  'p',
+  -- table functions
+  'run_with_scope', 'defaultbl', 'extend', 'copy',
+  -- class/object functions
+  'is_object', 'bind_methods', 'mixin', 'mixin_object', 'mixin_table',
+  -- misc functions
+  'fold',
+  -- debug functions
+  'debuge.upvalue',
 }, '.'))
 
 -- Identifiers.
