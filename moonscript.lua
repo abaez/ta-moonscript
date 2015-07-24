@@ -175,6 +175,6 @@ M._tokenstyles = {
   error         = l.STYLE_ERROR,
 }
 
-l.property['fold.by.indentation'] = '1'
+M._FOLDBYINDENTATION = true
 
 return M
