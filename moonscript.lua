@@ -2,7 +2,7 @@
 -- See @{README.md} for details on usage. Used Mitchell's lua and original
 -- Leaf's moonscript lexer for reference.
 -- @author [Alejandro Baez](https://twitter.com/a_baez)
--- @copyright 2015
+-- @copyright 2016
 -- @license MIT (see LICENSE)
 -- @module moonscript
 
@@ -30,19 +30,22 @@ local comment = token(l.COMMENT, block_comment + line_comment)
 local sq_str = l.delimited_range("'", false, true)
 local dq_str = l.delimited_range('"', false, true)
 
-
 local string = token(l.STRING, sq_str + dq_str) +
   token('longstring', longstring)
 
 -- Numbers.
 local number = token(l.NUMBER, l.float + l.integer)
 
+-- literals
+literals = token(l.LABEL, word_match{
+  "true", "false", "nil"
+})
 -- Keywords.
 local keyword = token(l.KEYWORD, word_match {
   -- lua
-  'and', 'break', 'do', 'else', 'elseif', 'false', 'for',
-  'if', 'in', 'local', 'nil', 'not', 'or', 'return', 'then',
-  'true', 'while',
+  'and', 'break', 'do', 'else', 'elseif', 'for',
+  'if', 'in', 'local', 'not', 'or', 'return', 'then',
+  'while',
   -- moonscript
   'continue', 'class', 'export', 'extends', 'from', 'import', 'super',
   'switch', 'unless', 'using', 'when', 'with'
@@ -68,110 +71,108 @@ local func = token(l.FUNCTION, word_match{
 -- Libraries.
 local library = token('library', word_match({
   -- Coroutine.
-  'coroutine', 'coroutine.create', 'coroutine.resume', 'coroutine.running',
-  'coroutine.status', 'coroutine.wrap', 'coroutine.yield',
+  "coroutine", "coroutine.create", "coroutine.resume", "coroutine.running",
+  "coroutine.status", "coroutine.wrap", "coroutine.yield",
   -- Coroutine added in 5.3.
-  'coroutine.isyieldable',
+  "coroutine.isyieldable",
   -- Module.
-  'package', 'package.cpath', 'package.loaded', 'package.loadlib',
-  'package.path', 'package.preload',
+  "package", "package.cpath", "package.loaded", "package.loadlib",
+  "package.path", "package.preload",
   -- Module added in 5.2.
-  'package.config', 'package.searchers', 'package.searchpath',
+  "package.config", "package.searchers", "package.searchpath",
   -- UTF-8 added in 5.3.
-  'utf8', 'utf8.char', 'utf8.charpattern', 'utf8.codepoint', 'utf8.codes',
-  'utf8.len', 'utf8.offset',
+  "utf8", "utf8.char", "utf8.charpattern", "utf8.codepoint", "utf8.codes",
+  "utf8.len", "utf8.offset",
   -- String.
-  'string', 'string.byte', 'string.char', 'string.dump', 'string.find',
-  'string.format', 'string.gmatch', 'string.gsub', 'string.len', 'string.lower',
-  'string.match', 'string.rep', 'string.reverse', 'string.sub', 'string.upper',
+  "string", "string.byte", "string.char", "string.dump", "string.find",
+  "string.format", "string.gmatch", "string.gsub", "string.len", "string.lower",
+  "string.match", "string.rep", "string.reverse", "string.sub", "string.upper",
   -- String added in 5.3.
-  'string.pack', 'string.packsize', 'string.unpack',
+  "string.pack", "string.packsize", "string.unpack",
   -- Table.
-  'table', 'table.concat', 'table.insert', 'table.remove', 'table.sort',
+  "table", "table.concat", "table.insert", "table.remove", "table.sort",
   -- Table added in 5.2.
-  'table.pack', 'table.unpack',
+  "table.pack", "table.unpack",
   -- Table added in 5.3.
-  'table.move',
+  "table.move",
   -- Math.
-  'math', 'math.abs', 'math.acos', 'math.asin', 'math.atan', 'math.ceil',
-  'math.cos', 'math.deg', 'math.exp', 'math.floor', 'math.fmod', 'math.huge',
-  'math.log', 'math.max', 'math.min', 'math.modf', 'math.pi', 'math.rad',
-  'math.random', 'math.randomseed', 'math.sin', 'math.sqrt', 'math.tan',
+  "math", "math.abs", "math.acos", "math.asin", "math.atan", "math.ceil",
+  "math.cos", "math.deg", "math.exp", "math.floor", "math.fmod", "math.huge",
+  "math.log", "math.max", "math.min", "math.modf", "math.pi", "math.rad",
+  "math.random", "math.randomseed", "math.sin", "math.sqrt", "math.tan",
   -- Math added in 5.3.
-  'math.maxinteger', 'math.mininteger', 'math.tointeger', 'math.type',
-  'math.ult',
+  "math.maxinteger", "math.mininteger", "math.tointeger", "math.type",
+  "math.ult",
   -- IO.
-  'io', 'io.close', 'io.flush', 'io.input', 'io.lines', 'io.open', 'io.output',
-  'io.popen', 'io.read', 'io.stderr', 'io.stdin', 'io.stdout', 'io.tmpfile',
-  'io.type', 'io.write',
+  "io", "io.close", "io.flush", "io.input", "io.lines", "io.open", "io.output",
+  "io.popen", "io.read", "io.stderr", "io.stdin", "io.stdout", "io.tmpfile",
+  "io.type", "io.write",
   -- OS.
-  'os', 'os.clock', 'os.date', 'os.difftime', 'os.execute', 'os.exit',
-  'os.getenv', 'os.remove', 'os.rename', 'os.setlocale', 'os.time',
-  'os.tmpname',
+  "os", "os.clock", "os.date", "os.difftime", "os.execute", "os.exit",
+  "os.getenv", "os.remove", "os.rename", "os.setlocale", "os.time",
+  "os.tmpname",
   -- Debug.
-  'debug', 'debug.debug', 'debug.gethook', 'debug.getinfo', 'debug.getlocal',
-  'debug.getmetatable', 'debug.getregistry', 'debug.getupvalue',
-  'debug.sethook', 'debug.setlocal', 'debug.setmetatable', 'debug.setupvalue',
-  'debug.traceback',
+  "debug", "debug.debug", "debug.gethook", "debug.getinfo", "debug.getlocal",
+  "debug.getmetatable", "debug.getregistry", "debug.getupvalue",
+  "debug.sethook", "debug.setlocal", "debug.setmetatable", "debug.setupvalue",
+  "debug.traceback",
   -- Debug added in 5.2.
-  'debug.getuservalue', 'debug.setuservalue', 'debug.upvalueid',
-  'debug.upvaluejoin',
+  "debug.getuservalue", "debug.setuservalue", "debug.upvalueid",
+  "debug.upvaluejoin",
 
-  --- moonscript 0.3.1 standard library
-  -- printing functions
-  'p',
-  -- table functions
-  'run_with_scope', 'defaultbl', 'extend', 'copy',
-  -- class/object functions
-  'is_object', 'bind_methods', 'mixin', 'mixin_object', 'mixin_table',
-  -- misc functions
-  'fold',
-  -- debug functions
-  'debuge.upvalue',
+  -- Module deprecated in 5.2.
+  "package.loaders", "package.seeall",
+  -- Table deprecated in 5.2.
+  "table.maxn",
+  -- Math deprecated in 5.2.
+  "math.log10",
+  -- Math deprecated in 5.3.
+  "math.atan2", "math.cosh", "math.frexp", "math.ldexp", "math.pow",
+  "math.sinh", "math.tanh",
+  -- Bit32 deprecated in 5.3.
+  "bit32", "bit32.arshift", "bit32.band", "bit32.bnot", "bit32.bor",
+  "bit32.btest", "bit32.extract", "bit32.lrotate", "bit32.lshift",
+  "bit32.replace", "bit32.rrotate", "bit32.rshift", "bit32.xor",
+  -- Debug deprecated in 5.2.
+  "debug.getfenv", "debug.setfenv"
 }, '.'))
 
 -- Identifiers.
 local identifier = token(l.IDENTIFIER, l.word)
 
-local fndef = token("fndef", P"->" + P"=>")
-local err = token(l.ERROR, word_match { "function", "end" })
+-- errors
+local err = token(l.ERROR, word_match { "function", "end", "repeat" })
 
 -- Operators.
-local symbol = token("symbol", S("(){}[]"))
-local operator = token(l.OPERATOR, S('+-*!\\/%^#=<>;:,.'))
+operator = token(l.OPERATOR, S "+-*/%^#=<>&|~;:,.{}[]()!\\")
 
--- self ref
-local self_var = token("self_ref", "@" * l.word + "self")
+local alphanum = R("az", "AZ", "09", "__")
 
-local proper_ident = token("proper_ident", R("AZ") * l.word)
+local cls = token(l.CLASS, P("@") * alphanum^0 + (R("AZ") * alphanum^0) + word_match {"self", "super"})
+local upper_operator = token(l.TYPE, P"->" + P"=>" + S"[]()")
 
-local tbl_key = token("tbl_key", l.word * ":" + ":" * l.word )
+local tbl_key = token(l.FUNCTION, P":" * alphanum^1 + alphanum^1 * P":")
 
 M._rules = {
-  { 'whitespace', ws },
-  { 'keyword', keyword },
-  { 'error', err },
-  { 'self', self_var },
-  { 'function', func},
-  { 'constant', constant},
-  { 'library', library },
-  { 'identifier', proper_ident + tbl_key + identifier },
-  { 'string', string },
-  { 'comment', comment },
-  { 'number', number },
-  { 'fndef', fndef },
-  { 'symbol', symbol },
-  { 'operator', operator },
+  {"whitespace", ws},
+  {"function", func + tbl_key},
+  {"label", literals},
+  {"keyword", keyword},
+  {"error", err},
+  {"class", cls},
+  {"constant", constant},
+  {"library", library},
+  {"identifier", identifier},
+  {"string", string},
+  {"comment", comment},
+  {"number", number},
+  {"type", upper_operator},
+  {"operator", operator}
 }
 
 M._tokenstyles = {
   longstring    = l.STYLE_STRING,
   library       = l.STYLE_TYPE,
-  self_ref      = l.STYLE_LABEL,
-  proper_ident  = l.STYLE_CLASS,
-  fndef         = l.STYLE_PREPROCESSOR,
-  symbol        = l.STYLE_EMBEDDED,
-  tbl_key       = l.STYLE_REGEX,
   error         = l.STYLE_ERROR,
 }
 
