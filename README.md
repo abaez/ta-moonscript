@@ -59,7 +59,7 @@ cp ~/.textadept/modules/moonscript/moonscript.lua ~/.textadept/lexers/moonscript
 ### KEYBINDINGS
 
     Keys        Action
-    cl+s        opens snippets directory for modifying.
+    cl+s        opens snippets file for modifying.
     cR          runs `moonc` on the current moonscript file.
     cr          runs `moon` on the current moonscript file.
     cB          builds the project with tup.

@@ -1,11 +1,10 @@
 --- the Textadept initializer for the Moonscript module.
 -- @author [Alejandro Baez](https://twitter.com/a_baez)
--- @copyright 2015
+-- @copyright 2015-2016
 -- @license MIT (see LICENSE)
 -- @module init
 
--- Checks file for errors.
-_AUTOLINT = true
+local _snippets = require("moonscript.snippets")
 
 textadept.file_types.extensions.moon = 'moonscript'
 textadept.editing.comment_string.moonscript = '--'
@@ -23,14 +22,15 @@ events.connect(events.LEXER_LOADED, function (lang)
 end)
 
 if type(snippets) == 'table' then
-  snippets.moonscript = require("moonscript.snippets")
+  snippets.moonscript = _snippets
 end
 
 keys.moonscript = {
   [not OSX and not CURSES and 'cl' or 'ml'] = {
     -- Open this module for editing: `Alt/⌘-L` `M`
-    s = { io.open_file,
-        (_USERHOME..'/modules/moonscript/snippets.lua') },
+    s = function()
+      io.open_file(_USERHOME..'/modules/moonscript/snippets.lua')
+    end,
   },
 
 }
@@ -38,7 +38,7 @@ keys.moonscript = {
 --- compiles automatically any moonscript file.
 -- disable by changing _AUTOLINT to false.
 events.connect(events.FILE_AFTER_SAVE, function()
-  if buffer:get_lexer() ~= 'moonscript' or not _AUTOLINT then return end
+  if buffer:get_lexer() ~= 'moonscript' or not _MOONAUTOLINT then return end
   buffer:annotation_clear_all()
   local err =  io.popen("moonc -l " .. buffer.filename .. " 2>&1"):read('*a')
 
@@ -60,5 +60,4 @@ events.connect(events.FILE_AFTER_SAVE, function()
 end)
 
 
-
-return { moonscript = 'moonscript' }
+return { }
